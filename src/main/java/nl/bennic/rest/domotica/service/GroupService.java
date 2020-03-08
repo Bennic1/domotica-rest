@@ -1,17 +1,28 @@
 package nl.bennic.rest.domotica.service;
 
+import lombok.extern.java.Log;
+import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.Group;
+import nl.bennic.rest.domotica.repository.DeviceRepository;
 import nl.bennic.rest.domotica.repository.GroupRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Log
 @Service
 public class GroupService {
+    private static final String TAG = "Bennic GroupService";
+
+
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     // POST ////////////////////////////////////////////////////////////
 
@@ -40,21 +51,22 @@ public class GroupService {
         return "Group " + id + " is deleted";
     }
 
-    // UPDATE ///////////////////////////////////////////////////////////
+    // PUT ///////////////////////////////////////////////////////////////
+    public Group updateGroup(String id) {
+//        System.out.println("GroupService - updateGroup: " + id);
+        Group existingGroup = groupRepository.findById(id).orElse(null);
+//        System.out.println(existingGroup.toString());
+        List<Device> deviceList = existingGroup.getDeviceList();
+//        System.out.println(deviceList.toString());
 
-    public Group updateGroup(Group group) {
-        Group existingGroup = groupRepository.findById(group.getId()).orElse(null);
-        existingGroup.setName(group.getName());
-        existingGroup.setState(group.getState());
-        existingGroup.setDeviceList(group.getDeviceList());
-        return groupRepository.save(existingGroup);
+//        Optional<Device> optional = deviceRepository.findById(deviceList.get(1).getId());
+//
+//        optional.ifPresent(device -> {
+//            System.out.println("Device name = " + device.getName());
+//        });
+
+//        Device device = deviceRepository.findById(id);
+
+        return existingGroup;
     }
-
-//    public Group updateGroupDeviceList(Group group){
-//        Group existingGroup = groupRepository.findById(group.getId()).orElse(null);
-//
-//
-//    }
-
-
 }

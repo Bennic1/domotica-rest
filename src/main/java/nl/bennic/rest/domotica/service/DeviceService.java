@@ -1,13 +1,16 @@
 package nl.bennic.rest.domotica.service;
 
+import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
+@Log
 public class DeviceService {
 
     @Autowired
@@ -32,7 +35,7 @@ public class DeviceService {
         return deviceRepository.findById(id).orElse(null);
     }
 
-      // lijst met alle devices ophalen
+    // lijst met alle devices ophalen
     public List<Device> getAllDevices() {
         return deviceRepository.findAll();
     }
@@ -49,13 +52,34 @@ public class DeviceService {
         return "Device " + id + " is deleted";
     }
 
-    // UPDATE ///////////////////////////////////////////////////////////
+    // PUT //////////////////////////////////////////////////////////////
 
     public Device updateDevice(Device device) {
         Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
         existingDevice.setIp(device.getIp());
         existingDevice.setName(device.getName());
         existingDevice.setState(device.getState());
+        return deviceRepository.save(existingDevice);
+    }
+
+    public Device switchDevice(String id, Boolean state) {
+
+        Device existingDevice = deviceRepository.findById(id).orElse(null);
+        existingDevice.setState(state);
+        String ip = existingDevice.getIp();
+        String cmd;
+
+        if (state) {
+            cmd = "lampaan";
+        } else {
+            cmd = "lampuit";
+        }
+
+        final String uri = "http://" + ip + "/control?cmd=event," + cmd;
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        System.out.println(result);
+
         return deviceRepository.save(existingDevice);
     }
 }

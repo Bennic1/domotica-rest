@@ -1,6 +1,7 @@
 package nl.bennic.rest.domotica.controller;
 
 
+import nl.bennic.rest.domotica.Exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,9 @@ public class DeviceController {
 
     @GetMapping("/getDeviceById/{id}")
     public Device getDeviceById(@PathVariable String id) {
-        return deviceService.getDeviceById(id);
+        throw new ApiRequestException("Cannot find a device with ID: " + id);
+//        System.out.println("getDeviceById: "+ id);
+//        return deviceService.getDeviceById(id);
     }
 
     @GetMapping("/getAllDeviceByName/{name}")
@@ -50,11 +53,15 @@ public class DeviceController {
         return deviceService.deleteDevice(id);
     }
 
-    // UPDATE ///////////////////////////////////////////////////////////////////
+    // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateDevice")
     public Device updateDevice(@RequestBody Device device) {
         return deviceService.updateDevice(device);
     }
 
+    @PutMapping("/switch/{id}/{state}")
+    public Device switchDevice(@PathVariable String id, @PathVariable Boolean state) {
+        return deviceService.switchDevice(id,state);
+    }
 }
