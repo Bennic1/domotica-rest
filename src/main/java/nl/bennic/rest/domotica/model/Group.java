@@ -4,6 +4,7 @@ package nl.bennic.rest.domotica.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +24,11 @@ public class Group {
 
     public Device addDevice(Device device) {
         deviceList.add(device);
+        return device;
+    }
+
+    public Device removeDevice(Device device) {
+        deviceList.remove(device);
         return device;
     }
 }

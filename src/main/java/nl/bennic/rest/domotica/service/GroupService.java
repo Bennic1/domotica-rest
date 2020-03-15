@@ -1,6 +1,7 @@
 package nl.bennic.rest.domotica.service;
 
 import lombok.extern.java.Log;
+import nl.bennic.rest.domotica.Exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
@@ -16,7 +17,6 @@ import java.util.Optional;
 @Service
 public class GroupService {
     private static final String TAG = "Bennic GroupService";
-
 
 
     @Autowired
@@ -69,4 +69,36 @@ public class GroupService {
 
         return existingGroup;
     }
+
+    public Group addDeviceToGroup(String groupId, String deviceId) {
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (group.isPresent()) {
+            Optional<Device> device = deviceRepository.findById(deviceId);
+            if (device.isPresent()) {
+                group.get().addDevice(device.get());
+                return groupRepository.save(group.get());
+            } else {
+                throw new ApiRequestException("Cannot find device with id: " + deviceId);
+            }
+        } else {
+            throw new ApiRequestException("Cannot find group with id: " + groupId);
+        }
+    }
+
+    public Group removeDeviceFromGroup(String groupId, String deviceId) {
+        Optional<Group> group = groupRepository.findById(groupId);
+        if (group.isPresent()) {
+            Optional<Device> device = deviceRepository.findById(deviceId);
+            if (device.isPresent()) {
+                group.get().removeDevice(device.get());
+                return groupRepository.save(group.get());
+            } else {
+                throw new ApiRequestException("Cannot find device with id: " + deviceId);
+            }
+        } else {
+            throw new ApiRequestException("Cannot find group with id: " + groupId);
+        }
+    }
+
+
 }

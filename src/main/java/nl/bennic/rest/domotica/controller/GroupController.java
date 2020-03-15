@@ -48,4 +48,16 @@ public class GroupController {
 //        System.out.println("UpdateGroup");
         return groupService.updateGroup(id);
     }
+
+    @PutMapping("addDeviceToGroup/{groupId}/{deviceId}")
+    public Group addDeviceToGroup(@PathVariable String groupId, @PathVariable String deviceId){
+        return groupService.addDeviceToGroup(groupId, deviceId);
+    }
+
+    @PutMapping("removeDeviceFromGroup/{groupId}/{deviceId}")
+    public Group removeDeviceFromGroup(@PathVariable String groupId, @PathVariable String deviceId){
+        return groupService.removeDeviceFromGroup(groupId, deviceId);
+    }
+
+
 }
