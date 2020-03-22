@@ -56,7 +56,7 @@ public class GroupService {
 //        System.out.println("GroupService - updateGroup: " + id);
         Group existingGroup = groupRepository.findById(id).orElse(null);
 //        System.out.println(existingGroup.toString());
-        List<Device> deviceList = existingGroup.getDeviceList();
+//        List<Device> deviceList = existingGroup.getDeviceList();
 //        System.out.println(deviceList.toString());
 
 //        Optional<Device> optional = deviceRepository.findById(deviceList.get(1).getId());
@@ -75,8 +75,12 @@ public class GroupService {
         if (group.isPresent()) {
             Optional<Device> device = deviceRepository.findById(deviceId);
             if (device.isPresent()) {
-                group.get().addDevice(device.get());
-                return groupRepository.save(group.get());
+                if (!group.get().getDeviceList().contains(deviceId)) {
+                    group.get().getDeviceList().add(deviceId);
+                    return groupRepository.save(group.get());
+                } else {
+                    throw new ApiRequestException("Device with id " + deviceId + " already exists!");
+                }
             } else {
                 throw new ApiRequestException("Cannot find device with id: " + deviceId);
             }
@@ -88,9 +92,8 @@ public class GroupService {
     public Group removeDeviceFromGroup(String groupId, String deviceId) {
         Optional<Group> group = groupRepository.findById(groupId);
         if (group.isPresent()) {
-            Optional<Device> device = deviceRepository.findById(deviceId);
-            if (device.isPresent()) {
-                group.get().removeDevice(device.get());
+            if (group.get().getDeviceList().contains(deviceId)) {
+                group.get().getDeviceList().remove(deviceId);
                 return groupRepository.save(group.get());
             } else {
                 throw new ApiRequestException("Cannot find device with id: " + deviceId);
@@ -99,6 +102,4 @@ public class GroupService {
             throw new ApiRequestException("Cannot find group with id: " + groupId);
         }
     }
-
-
 }

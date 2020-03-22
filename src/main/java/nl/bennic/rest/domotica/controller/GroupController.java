@@ -19,6 +19,7 @@ public class GroupController {
 
     @PostMapping("/addGroup")
     public Group addGroup(@RequestBody Group group) {
+
         return groupService.saveGroup(group);
     }
 
@@ -26,6 +27,7 @@ public class GroupController {
 
     @GetMapping("/getAllGroups")
     public List<Group> getAllGroups() {
+        System.out.println("REQUEST: getAllGroups");
         return groupService.getAllGroups();
     }
 

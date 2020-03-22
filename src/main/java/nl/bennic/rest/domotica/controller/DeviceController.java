@@ -31,6 +31,7 @@ public class DeviceController {
 
     @GetMapping("/getAllDevices")
     public List<Device> getAllDevices() {
+        System.out.println("REQUEST: getAllDevices");
         return deviceService.getAllDevices();
     }
 
@@ -62,6 +63,6 @@ public class DeviceController {
 
     @PutMapping("/switch/{id}/{state}")
     public Device switchDevice(@PathVariable String id, @PathVariable Boolean state) {
-        return deviceService.switchDevice(id,state);
+        return deviceService.switchDevice(id, state);
     }
 }

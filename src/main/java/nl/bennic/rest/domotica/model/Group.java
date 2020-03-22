@@ -20,16 +20,16 @@ public class Group {
     private String id;
     private String name;
     private Boolean state;
-    private List<Device> deviceList;
+    private List<String> deviceList;
 
-    public Device addDevice(Device device) {
-        deviceList.add(device);
-        return device;
+    public String addDevice(String deviceId) {
+        deviceList.add(deviceId);
+        return "Device added to group with id: " + deviceId;
     }
 
-    public Device removeDevice(Device device) {
-        deviceList.remove(device);
-        return device;
+    public String removeDevice(String deviceId) {
+        deviceList.remove(deviceId);
+        return "Device removed from group with id: " +deviceId;
     }
 }
 
