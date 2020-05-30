@@ -4,11 +4,10 @@ package nl.bennic.rest.domotica.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,16 +19,16 @@ public class Group {
     private String id;
     private String name;
     private Boolean state;
-    private List<String> deviceList;
+    private Set<Device> devices;// aanpassen naar Set en Device obj
 
-    public String addDevice(String deviceId) {
-        deviceList.add(deviceId);
-        return "Device added to group with id: " + deviceId;
+    public Boolean addDevice(Device device) {
+        return devices.add(device);
     }
 
-    public String removeDevice(String deviceId) {
-        deviceList.remove(deviceId);
-        return "Device removed from group with id: " +deviceId;
+    public Boolean removeDevice(Device device) {
+        return devices.remove(device);
+
+
     }
 }
 

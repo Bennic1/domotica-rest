@@ -1,6 +1,7 @@
 package nl.bennic.rest.domotica.controller;
 
 import lombok.extern.java.Log;
+import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +46,14 @@ public class GroupController {
 
     // PUT //////////////////////////////////////////////////////////////////////
 
-    @PutMapping("/updateGroup/{id}")
-    public Group updateGroup(@PathVariable String id) {
-//        System.out.println("UpdateGroup");
-        return groupService.updateGroup(id);
+    @PutMapping("/updateGroup/")
+    public Group updateGroup(@RequestBody Group group) {
+        return groupService.updateGroup(group);
     }
 
-    @PutMapping("addDeviceToGroup/{groupId}/{deviceId}")
-    public Group addDeviceToGroup(@PathVariable String groupId, @PathVariable String deviceId){
-        return groupService.addDeviceToGroup(groupId, deviceId);
+    @PutMapping("addDeviceToGroup/")
+    public Group addDeviceToGroup(@RequestBody Group group, @RequestBody Device device){
+        return groupService.addDeviceToGroup(group, device);
     }
 
     @PutMapping("removeDeviceFromGroup/{groupId}/{deviceId}")

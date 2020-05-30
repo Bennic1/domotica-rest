@@ -19,6 +19,7 @@ public class DeviceController {
 
     @PostMapping("/addDevice")
     public Device addDevice(@RequestBody Device device) {
+        System.out.println("REQUEST: addDevice " + device.toString());
         return deviceService.saveDevice(device);
     }
 
@@ -61,8 +62,16 @@ public class DeviceController {
         return deviceService.updateDevice(device);
     }
 
-    @PutMapping("/switch/{id}/{state}")
-    public Device switchDevice(@PathVariable String id, @PathVariable Boolean state) {
-        return deviceService.switchDevice(id, state);
-    }
+
+    //    Aangepast naar updateDevice
+//    @PutMapping("/switch/{id}/{state}")
+//    public Device switchDevice(@PathVariable String id, @PathVariable Boolean state) {
+//        return deviceService.switchDevice(id, state);
+//    }
+//    Aangepast naar updateDevice
+//    @PutMapping("/switchDevice")
+//    public Device switchDevice(@RequestBody Device device) {
+//        return deviceService.switchDevice(device);
+//    }
+
 }

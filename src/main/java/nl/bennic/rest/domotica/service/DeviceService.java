@@ -1,17 +1,22 @@
 package nl.bennic.rest.domotica.service;
 
 import lombok.extern.java.Log;
+import nl.bennic.rest.domotica.Exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 @Service
 @Log
 public class DeviceService {
+
+    //private WebClient webClient;
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -53,33 +58,104 @@ public class DeviceService {
     }
 
     // PUT //////////////////////////////////////////////////////////////
+    //Tasmota on: http://192.168.2.201/cm?cmnd=Power%20on
+    //Tasmota off: http://192.168.2.201/cm?cmnd=Power%20off
+
 
     public Device updateDevice(Device device) {
-        Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
-        existingDevice.setIp(device.getIp());
-        existingDevice.setName(device.getName());
-        existingDevice.setState(device.getState());
-        return deviceRepository.save(existingDevice);
-    }
+        try {
+            System.out.println("Update Device: " + device.getId() + ", State: " + device.getState());
+            String path = "/cm";
+            String command = "cmnd";
+            String state;
+            if (device.getState()) state = "Power on";
+            else state = "Power off";
+            System.out.println(state);
 
-    public Device switchDevice(String id, Boolean state) {
+            WebClient webClient = WebClient.create("http://" + device.getIp());
+            Mono<String> result = webClient.put()
+                    .uri(uriBuilder -> uriBuilder
+                            .path(path)
+                            .queryParam(command, state)
+                            .build())
+//                    .uri(command+state).
+                    .retrieve()
+                    .bodyToMono(String.class);
 
-        Device existingDevice = deviceRepository.findById(id).orElse(null);
-        existingDevice.setState(state);
-        String ip = existingDevice.getIp();
-        String cmd;
 
-        if (state) {
-            cmd = "lampaan";
-        } else {
-            cmd = "lampuit";
+            System.out.println("Result" + result.block());
+
+//            RestTemplate restTemplate = new RestTemplate();
+//            String result = restTemplate.getForObject(uri, String.class);
+
+//            System.out.println(result);
+
+            Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
+            existingDevice.setIp(device.getIp());
+            existingDevice.setName(device.getName());
+            existingDevice.setState(device.getState());
+            return deviceRepository.save(existingDevice);
+        } catch (Exception e) {
+            throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
         }
-
-        final String uri = "http://" + ip + "/control?cmd=event," + cmd;
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        System.out.println(result);
-
-        return deviceRepository.save(existingDevice);
     }
+//Aangepast naar updateDevice
+//    public Device switchDevice(Device device) {
+//        Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
+//        try {
+//            existingDevice.setState(device.getState());
+//            return deviceRepository.save(existingDevice);
+//        } catch (Exception e) {
+//            throw new ApiRequestException("Cannot switch device with id " + device.getId() + ". Device not found!");
+//        }
+//    }
+//
+//
+//
+//        if (existingDevice != null) {
+//            existingDevice.setState(device.getState());
+//            return deviceRepository.save(existingDevice);
+//        }
+//        if (deviceRepository.findAll().contains(device)){
+//            device.getState()
+//        }
+//
+//        Device existingDevice = deviceRepository.findById(id).orElse(null);
+//        existingDevice.setState(state);
+//        String ip = existingDevice.getIp();
+////        String cmd;
+//
+////        if (state) {
+////            cmd = "lampaan";
+////        } else {
+////            cmd = "lampuit";
+////        }
+//
+//        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
+//        System.out.println(result);
+//
+//        return deviceRepository.save(existingDevice);
+//    }
+//    public Device switchDevice(String id, Boolean state) {
+//
+//        Device existingDevice = deviceRepository.findById(id).orElse(null);
+//        existingDevice.setState(state);
+//        String ip = existingDevice.getIp();
+////        String cmd;
+//
+////        if (state) {
+////            cmd = "lampaan";
+////        } else {
+////            cmd = "lampuit";
+////        }
+//
+//        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
+//        System.out.println(result);
+//
+//        return deviceRepository.save(existingDevice);
+//    }
 }
