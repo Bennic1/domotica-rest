@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,7 +21,8 @@ public class Group {
     private String id;
     private String name;
     private Boolean state;
-    private Set<Device> devices;// aanpassen naar Set en Device obj
+
+    private List<Device> devices;// aanpassen naar Set en Device obj
 
     public Boolean addDevice(Device device) {
         return devices.add(device);

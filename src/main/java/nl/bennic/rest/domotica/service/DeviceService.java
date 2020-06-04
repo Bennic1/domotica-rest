@@ -3,6 +3,7 @@ package nl.bennic.rest.domotica.service;
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.Exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
+import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,10 +53,18 @@ public class DeviceService {
 
     // DELETE ///////////////////////////////////////////////////////////
 
-    public String deleteDevice(String id) {
-        deviceRepository.deleteById(id);
-        return "Device " + id + " is deleted";
+    public String deleteDevice(Device device) {
+        System.out.println("Deleting Device: " + device.getId() + "..");
+        deviceRepository.delete(device);
+        if (deviceRepository.existsById(device.getId())) {
+            System.out.println("Error: Device not deleted: " + device.getId());
+            return "Error: Device not deleted: " + device.getId();
+        } else {
+            System.out.println("Device deleted: " + device.getId());
+            return "Device deleted: " + device.getId();
+        }
     }
+
 
     // PUT //////////////////////////////////////////////////////////////
     //Tasmota on: http://192.168.2.201/cm?cmnd=Power%20on
@@ -78,23 +87,12 @@ public class DeviceService {
                             .path(path)
                             .queryParam(command, state)
                             .build())
-//                    .uri(command+state).
                     .retrieve()
                     .bodyToMono(String.class);
 
-
             System.out.println("Result" + result.block());
 
-//            RestTemplate restTemplate = new RestTemplate();
-//            String result = restTemplate.getForObject(uri, String.class);
-
-//            System.out.println(result);
-
-            Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
-            existingDevice.setIp(device.getIp());
-            existingDevice.setName(device.getName());
-            existingDevice.setState(device.getState());
-            return deviceRepository.save(existingDevice);
+            return deviceRepository.save(device);
         } catch (Exception e) {
             throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
         }

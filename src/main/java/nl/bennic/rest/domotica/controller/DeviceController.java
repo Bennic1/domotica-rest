@@ -39,8 +39,7 @@ public class DeviceController {
     @GetMapping("/getDeviceById/{id}")
     public Device getDeviceById(@PathVariable String id) {
         throw new ApiRequestException("Cannot find a device with ID: " + id);
-//        System.out.println("getDeviceById: "+ id);
-//        return deviceService.getDeviceById(id);
+
     }
 
     @GetMapping("/getAllDeviceByName/{name}")
@@ -50,9 +49,9 @@ public class DeviceController {
 
     // DELETE ///////////////////////////////////////////////////////////////////
 
-    @DeleteMapping("/deleteDevice/{id}")
-    public String deleteDevice(@PathVariable String id) {
-        return deviceService.deleteDevice(id);
+    @DeleteMapping("/deleteDevice")
+    public String deleteDevice(@RequestBody Device device) {
+        return deviceService.deleteDevice(device);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
@@ -61,17 +60,4 @@ public class DeviceController {
     public Device updateDevice(@RequestBody Device device) {
         return deviceService.updateDevice(device);
     }
-
-
-    //    Aangepast naar updateDevice
-//    @PutMapping("/switch/{id}/{state}")
-//    public Device switchDevice(@PathVariable String id, @PathVariable Boolean state) {
-//        return deviceService.switchDevice(id, state);
-//    }
-//    Aangepast naar updateDevice
-//    @PutMapping("/switchDevice")
-//    public Device switchDevice(@RequestBody Device device) {
-//        return deviceService.switchDevice(device);
-//    }
-
 }

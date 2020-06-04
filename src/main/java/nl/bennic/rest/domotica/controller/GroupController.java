@@ -1,7 +1,6 @@
 package nl.bennic.rest.domotica.controller;
 
 import lombok.extern.java.Log;
-import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,27 +38,30 @@ public class GroupController {
 
     // DELETE ///////////////////////////////////////////////////////////////////
 
-    @DeleteMapping("/deleteGroup/{id}")
-    public String deleteGroup(@PathVariable String id) {
-        return groupService.deleteGroup(id);
+    @DeleteMapping("/deleteGroup")
+    public String deleteGroup(@RequestBody Group group) {
+        return groupService.deleteGroup(group);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
-    @PutMapping("/updateGroup/")
+    @PutMapping("/updateGroup")
     public Group updateGroup(@RequestBody Group group) {
         return groupService.updateGroup(group);
     }
-
-    @PutMapping("addDeviceToGroup/")
-    public Group addDeviceToGroup(@RequestBody Group group, @RequestBody Device device){
-        return groupService.addDeviceToGroup(group, device);
-    }
-
-    @PutMapping("removeDeviceFromGroup/{groupId}/{deviceId}")
-    public Group removeDeviceFromGroup(@PathVariable String groupId, @PathVariable String deviceId){
-        return groupService.removeDeviceFromGroup(groupId, deviceId);
-    }
-
-
 }
+
+
+
+
+
+//    @PutMapping("addDeviceToGroup/")
+//    public Group addDeviceToGroup(@RequestBody Group group, @RequestBody Device device){
+//        return groupService.addDeviceToGroup(group, device);
+//    }
+//
+//    @PutMapping("removeDeviceFromGroup/{groupId}/{deviceId}")
+//    public Group removeDeviceFromGroup(@PathVariable String groupId, @PathVariable String deviceId){
+//        return groupService.removeDeviceFromGroup(groupId, deviceId);
+//    }
+//}
