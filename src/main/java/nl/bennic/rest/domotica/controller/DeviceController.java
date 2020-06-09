@@ -15,11 +15,17 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @RequestMapping("/")
+    public String test(){
+        return "Hello";
+    }
+
+
     // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addDevice")
     public Device addDevice(@RequestBody Device device) {
-        System.out.println("REQUEST: addDevice " + device.toString());
+//        System.out.println("REQUEST: addDevice " + device.toString());
         return deviceService.saveDevice(device);
     }
 

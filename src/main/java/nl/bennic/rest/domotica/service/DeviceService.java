@@ -3,11 +3,9 @@ package nl.bennic.rest.domotica.service;
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.Exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
-import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -16,8 +14,6 @@ import java.util.List;
 @Service
 @Log
 public class DeviceService {
-
-    //private WebClient webClient;
 
     @Autowired
     private DeviceRepository deviceRepository;
