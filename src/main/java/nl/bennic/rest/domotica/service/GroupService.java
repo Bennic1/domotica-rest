@@ -2,6 +2,7 @@ package nl.bennic.rest.domotica.service;
 
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.Exception.ApiRequestException;
+import nl.bennic.rest.domotica.controller.DeviceController;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
@@ -25,6 +26,9 @@ public class GroupService {
     private GroupRepository groupRepository;
     @Autowired
     private DeviceRepository deviceRepository;
+    @Autowired
+    private DeviceService deviceService;
+
 
     // POST ////////////////////////////////////////////////////////////
 
@@ -65,7 +69,10 @@ public class GroupService {
         try {
             Group existingGroup = groupRepository.findById(group.getId()).orElse(null);
 
-            System.out.println("Updating Group with ID: " + group.getId());
+            System.out.println("\u001b[32;1m============================= Update Goup =============================\u001b[0m");
+
+            System.out.println("From: \t" + existingGroup);
+            System.out.println("To: \t" + group);
 
             if (!(existingGroup.getName().equals(group.getName()))) {
                 System.out.println("Name from: '" + existingGroup.getName() + "' to: '" + group.getName() + "'");
@@ -77,22 +84,31 @@ public class GroupService {
 
             // als de status van de groep in de DB verschilt met de status van de groep die wordt meegegeven..
             if (Boolean.compare(existingGroup.getState(), group.getState()) != 0) {
-                System.out.println("State from: " + existingGroup.getState() + " to: " + group.getState());
+                System.out.println("Group state from: " + existingGroup.getState() + " to: " + group.getState());
                 // als er Devices in de Group zitten..
                 List<Device> devicesInGroup = new ArrayList<>(group.getDevices());
-                DeviceService deviceService = new DeviceService();
+
+                System.out.println("Devices in group to update: " + devicesInGroup.size());
+
                 if (devicesInGroup.size() > 0) {
                     // update de devices..
+                    int i = 1;
                     for (Device device : devicesInGroup) {
+                        System.out.println("\u001b[32;1mUpdate Device \u001b[0m" + i + ": " + device.getName());
+                        device.setState(group.getState());
                         deviceService.updateDevice(device);
+                        i++;
                     }
                 } else {
                     System.out.println("No Devices in Group to switch.");
                 }
             }
+            System.out.println("\u001b[32;1m======================================================================\u001b[0m");
+
 //             update het object in de DB
             return groupRepository.save(group);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ApiRequestException("Cannot update group with id " + group.getId() + ". Exception: " + e);
         }
     }

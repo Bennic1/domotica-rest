@@ -69,13 +69,17 @@ public class DeviceService {
 
     public Device updateDevice(Device device) {
         try {
-            System.out.println("Update Device: " + device.getId() + ", State: " + device.getState());
+            Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
+
+            System.out.println("\u001b[34;1m============================Update Device ============================\u001b[0m");
+            System.out.println("From: \t" + existingDevice);
+            System.out.println("To: \t" + device);
+
             String path = "/cm";
             String command = "cmnd";
             String state;
             if (device.getState()) state = "Power on";
             else state = "Power off";
-            System.out.println(state);
 
             WebClient webClient = WebClient.create("http://" + device.getIp());
             Mono<String> result = webClient.put()
@@ -86,10 +90,13 @@ public class DeviceService {
                     .retrieve()
                     .bodyToMono(String.class);
 
-            System.out.println("Result" + result.block());
+            System.out.println("Result: " + result.block());
+            System.out.println("\u001b[34;1m======================================================================\u001b[0m");
+           return deviceRepository.save(device);
 
-            return deviceRepository.save(device);
         } catch (Exception e) {
+            System.out.println("Device Exception! Device: " + device);
+            e.printStackTrace();
             throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
         }
     }
