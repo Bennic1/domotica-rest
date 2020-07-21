@@ -9,9 +9,9 @@ import nl.bennic.rest.domotica.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Log
 @Service
@@ -101,9 +101,10 @@ public class GroupService {
 
 //             update het object in de DB
             return groupRepository.save(group);
+
         } catch (Exception e) {
             log.warning(e.getMessage());
             throw new ApiRequestException("Cannot update group with id " + group.getId() + ". Exception: " + e);
         }
     }
-  }
+}
