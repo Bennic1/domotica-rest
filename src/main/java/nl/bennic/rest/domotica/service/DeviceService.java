@@ -50,13 +50,13 @@ public class DeviceService {
     // DELETE ///////////////////////////////////////////////////////////
 
     public String deleteDevice(Device device) {
-        System.out.println("Deleting Device: " + device.getId() + "..");
+        log.info("Deleting Device: " + device.getId() + "..");
         deviceRepository.delete(device);
         if (deviceRepository.existsById(device.getId())) {
-            System.out.println("Error: Device not deleted: " + device.getId());
+            log.info("Error: Device not deleted: " + device.getId());
             return "Error: Device not deleted: " + device.getId();
         } else {
-            System.out.println("Device deleted: " + device.getId());
+            log.info("Device deleted: " + device.getId());
             return "Device deleted: " + device.getId();
         }
     }
@@ -71,9 +71,11 @@ public class DeviceService {
         try {
             Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
 
-            System.out.println("\u001b[34;1m============================Update Device ============================\u001b[0m");
-            System.out.println("From: \t" + existingDevice);
-            System.out.println("To: \t" + device);
+            log.info("My Message");
+
+            log.info("\u001b[34;1m============================Update Device ============================\u001b[0m");
+            log.info("From: \t" + existingDevice);
+            log.info("To: \t" + device);
 
             String path = "/cm";
             String command = "cmnd";
@@ -90,12 +92,12 @@ public class DeviceService {
                     .retrieve()
                     .bodyToMono(String.class);
 
-            System.out.println("Result: " + result.block());
-            System.out.println("\u001b[34;1m======================================================================\u001b[0m");
+            log.info("Result: " + result.block());
+            log.info("\u001b[34;1m======================================================================\u001b[0m");
            return deviceRepository.save(device);
 
         } catch (Exception e) {
-            System.out.println("Device Exception! Device: " + device);
+            log.info("Device Exception! Device: " + device);
             e.printStackTrace();
             throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
         }
@@ -135,7 +137,7 @@ public class DeviceService {
 //        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
 //        RestTemplate restTemplate = new RestTemplate();
 //        String result = restTemplate.getForObject(uri, String.class);
-//        System.out.println(result);
+//        log.info(result);
 //
 //        return deviceRepository.save(existingDevice);
 //    }
@@ -155,7 +157,7 @@ public class DeviceService {
 //        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
 //        RestTemplate restTemplate = new RestTemplate();
 //        String result = restTemplate.getForObject(uri, String.class);
-//        System.out.println(result);
+//        log.info(result);
 //
 //        return deviceRepository.save(existingDevice);
 //    }

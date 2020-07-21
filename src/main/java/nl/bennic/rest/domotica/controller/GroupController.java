@@ -27,7 +27,7 @@ public class GroupController {
 
     @GetMapping("/getAllGroups")
     public List<Group> getAllGroups() {
-        System.out.println("REQUEST: getAllGroups");
+        log.info("REQUEST: getAllGroups");
         return groupService.getAllGroups();
     }
 

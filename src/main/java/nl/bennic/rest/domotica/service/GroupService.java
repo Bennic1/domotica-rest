@@ -53,13 +53,13 @@ public class GroupService {
     // DELETE ///////////////////////////////////////////////////////////
 
     public String deleteGroup(Group group) {
-        System.out.println("Deleting Group: " + group + "..");
+        log.info("Deleting Group: " + group + "..");
         groupRepository.delete(group);
         if (groupRepository.existsById(group.getId())) {
-            System.out.println("Error: Group not deleted: " + group.getId());
+            log.info("Error: Group not deleted: " + group.getId());
             return "Error: Group not deleted: " + group.getId();
         } else {
-            System.out.println("Group deleted: " + group.getId());
+            log.info("Group deleted: " + group.getId());
             return "Group  deleted: " + group.getId();
         }
     }
@@ -69,41 +69,41 @@ public class GroupService {
         try {
             Group existingGroup = groupRepository.findById(group.getId()).orElse(null);
 
-            System.out.println("\u001b[32;1m============================= Update Goup =============================\u001b[0m");
+            log.info("\u001b[32;1m============================= Update Goup =============================\u001b[0m");
 
-            System.out.println("From: \t" + existingGroup);
-            System.out.println("To: \t" + group);
+            log.info("From: \t" + existingGroup);
+            log.info("To: \t" + group);
 
             if (!(existingGroup.getName().equals(group.getName()))) {
-                System.out.println("Name from: '" + existingGroup.getName() + "' to: '" + group.getName() + "'");
+                log.info("Name from: '" + existingGroup.getName() + "' to: '" + group.getName() + "'");
             }
 
             if (existingGroup.getDevices().size() != (group.getDevices().size())) {
-                System.out.println("Total devices from: " + existingGroup.getDevices().size() + "' to: '" + group.getDevices().size());
+                log.info("Total devices from: " + existingGroup.getDevices().size() + "' to: '" + group.getDevices().size());
             }
 
             // als de status van de groep in de DB verschilt met de status van de groep die wordt meegegeven..
             if (Boolean.compare(existingGroup.getState(), group.getState()) != 0) {
-                System.out.println("Group state from: " + existingGroup.getState() + " to: " + group.getState());
+                log.info("Group state from: " + existingGroup.getState() + " to: " + group.getState());
                 // als er Devices in de Group zitten..
                 List<Device> devicesInGroup = new ArrayList<>(group.getDevices());
 
-                System.out.println("Devices in group to update: " + devicesInGroup.size());
+                log.info("Devices in group to update: " + devicesInGroup.size());
 
                 if (devicesInGroup.size() > 0) {
                     // update de devices..
                     int i = 1;
                     for (Device device : devicesInGroup) {
-                        System.out.println("\u001b[32;1mUpdate Device \u001b[0m" + i + ": " + device.getName());
+                        log.info("\u001b[32;1mUpdate Device \u001b[0m" + i + ": " + device.getName());
                         device.setState(group.getState());
                         deviceService.updateDevice(device);
                         i++;
                     }
                 } else {
-                    System.out.println("No Devices in Group to switch.");
+                    log.info("No Devices in Group to switch.");
                 }
             }
-            System.out.println("\u001b[32;1m======================================================================\u001b[0m");
+            log.info("\u001b[32;1m======================================================================\u001b[0m");
 
 //             update het object in de DB
             return groupRepository.save(group);
@@ -121,15 +121,15 @@ public class GroupService {
 //            for (int i = 0; i < group.getDevices().size(); i++) {
 //                Device device = new Device();
 //                device = (group.getDevices().get(i));
-//                System.out.println("Device " + i + ":" + device + "\n");
+//                log.info("Device " + i + ":" + device + "\n");
 //                deviceList.add(device);
 //            }
 //
-//        System.out.println("DONE!...");
+//        log.info("DONE!...");
 //
 //
 //
-//            System.out.println("Update Group: " + group.getName() + ", with ID: " + group.getId() + ", devices in group: " + group.getDevices());
+//            log.info("Update Group: " + group.getName() + ", with ID: " + group.getId() + ", devices in group: " + group.getDevices());
 //            Group existingGroup = groupRepository.findById(group.getId()).orElse(null);
 //
 //
@@ -144,16 +144,16 @@ public class GroupService {
 //    }
 //
 //
-//        System.out.println("GroupService - updateGroup: " + id);
+//        log.info("GroupService - updateGroup: " + id);
 //        Group existingGroup = groupRepository.findById(id).orElse(null);
-//        System.out.println(existingGroup.toString());
+//        log.info(existingGroup.toString());
 //        List<Group> groups = existingGroup.getGroups();
-//        System.out.println(groups.toString());
+//        log.info(groups.toString());
 //
 //        Optional<Group> optional = groupRepository.findById(groups.get(1).getId());
 //
 //        optional.ifPresent(group -> {
-//            System.out.println("Group name = " + group.getName());
+//            log.info("Group name = " + group.getName());
 //        });
 //
 //        Group group = groupRepository.findById(id);
