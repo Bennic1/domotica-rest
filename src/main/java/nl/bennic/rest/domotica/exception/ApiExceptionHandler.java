@@ -14,9 +14,9 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
 
         //Payload exception details
-        ApiException apiException = new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST, ZonedDateTime.now());
+        ApiExcept apiExcept = new ApiExcept(e.getMessage(), HttpStatus.BAD_REQUEST, ZonedDateTime.now());
 
         //Response Entity
-        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiExcept, HttpStatus.BAD_REQUEST);
     }
 }
