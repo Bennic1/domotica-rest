@@ -1,4 +1,4 @@
-package nl.bennic.rest.domotica.Exception;
+package nl.bennic.rest.domotica.exception;
 
 public class ApiRequestException extends RuntimeException{
 

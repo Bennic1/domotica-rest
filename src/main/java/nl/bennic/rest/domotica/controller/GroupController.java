@@ -50,18 +50,3 @@ public class GroupController {
         return groupService.updateGroup(group);
     }
 }
-
-
-
-
-
-//    @PutMapping("addDeviceToGroup/")
-//    public Group addDeviceToGroup(@RequestBody Group group, @RequestBody Device device){
-//        return groupService.addDeviceToGroup(group, device);
-//    }
-//
-//    @PutMapping("removeDeviceFromGroup/{groupId}/{deviceId}")
-//    public Group removeDeviceFromGroup(@PathVariable String groupId, @PathVariable String deviceId){
-//        return groupService.removeDeviceFromGroup(groupId, deviceId);
-//    }
-//}

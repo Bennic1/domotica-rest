@@ -1,7 +1,7 @@
 package nl.bennic.rest.domotica.service;
 
 import lombok.extern.java.Log;
-import nl.bennic.rest.domotica.Exception.ApiRequestException;
+import nl.bennic.rest.domotica.exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +80,7 @@ public class DeviceService {
             String path = "/cm";
             String command = "cmnd";
             String state;
-            if (device.getState()) state = "Power on";
+            if (Boolean.TRUE.equals(device.getState())) state = "Power on";
             else state = "Power off";
 
             WebClient webClient = WebClient.create("http://" + device.getIp());
@@ -97,68 +97,9 @@ public class DeviceService {
            return deviceRepository.save(device);
 
         } catch (Exception e) {
-            log.info("Device Exception! Device: " + device);
-            e.printStackTrace();
+            log.warning("Device Exception! Device: " + device);
+            log.warning(e.getMessage());
             throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
         }
     }
-//Aangepast naar updateDevice
-//    public Device switchDevice(Device device) {
-//        Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
-//        try {
-//            existingDevice.setState(device.getState());
-//            return deviceRepository.save(existingDevice);
-//        } catch (Exception e) {
-//            throw new ApiRequestException("Cannot switch device with id " + device.getId() + ". Device not found!");
-//        }
-//    }
-//
-//
-//
-//        if (existingDevice != null) {
-//            existingDevice.setState(device.getState());
-//            return deviceRepository.save(existingDevice);
-//        }
-//        if (deviceRepository.findAll().contains(device)){
-//            device.getState()
-//        }
-//
-//        Device existingDevice = deviceRepository.findById(id).orElse(null);
-//        existingDevice.setState(state);
-//        String ip = existingDevice.getIp();
-////        String cmd;
-//
-////        if (state) {
-////            cmd = "lampaan";
-////        } else {
-////            cmd = "lampuit";
-////        }
-//
-//        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        log.info(result);
-//
-//        return deviceRepository.save(existingDevice);
-//    }
-//    public Device switchDevice(String id, Boolean state) {
-//
-//        Device existingDevice = deviceRepository.findById(id).orElse(null);
-//        existingDevice.setState(state);
-//        String ip = existingDevice.getIp();
-////        String cmd;
-//
-////        if (state) {
-////            cmd = "lampaan";
-////        } else {
-////            cmd = "lampuit";
-////        }
-//
-//        final String uri = "http://" + ip + "/cm?cmnd=power" + state;
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        log.info(result);
-//
-//        return deviceRepository.save(existingDevice);
-//    }
 }

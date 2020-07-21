@@ -1,4 +1,4 @@
-package nl.bennic.rest.domotica.Exception;
+package nl.bennic.rest.domotica.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

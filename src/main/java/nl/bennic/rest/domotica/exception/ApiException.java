@@ -1,4 +1,4 @@
-package nl.bennic.rest.domotica.Exception;
+package nl.bennic.rest.domotica.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -9,7 +9,7 @@ public class ApiException {
     private final HttpStatus httpStatus;
     private final ZonedDateTime timestamp;
 
-    public ApiException(String message, Throwable throwable, HttpStatus httpStatus, ZonedDateTime timestamp) {
+    public ApiException(String message, HttpStatus httpStatus, ZonedDateTime timestamp) {
         this.message = message;
         this.httpStatus = httpStatus;
         this.timestamp = timestamp;

@@ -1,8 +1,7 @@
 package nl.bennic.rest.domotica.controller;
 
-
 import lombok.extern.java.Log;
-import nl.bennic.rest.domotica.Exception.ApiRequestException;
+import nl.bennic.rest.domotica.exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +16,11 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
-    @RequestMapping("/")
-    public String test(){
-        return "Hello";
-    }
-
-
-    // POST /////////////////////////////////////////////////////////////////////
+   // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addDevice")
     public Device addDevice(@RequestBody Device device) {
-//        log.info("REQUEST: addDevice " + device.toString());
+        log.info("REQUEST: addDevice " + device.toString());
         return deviceService.saveDevice(device);
     }
 
