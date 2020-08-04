@@ -35,9 +35,10 @@ class DeviceControllerTest {
         String name = "test_device";
         String ip =  "192.168.2.201";
         boolean state = false;
+        int delay = 0;
 
         //Voer de test uit met een Device object
-        Device device = new Device(null, name, ip, state);
+        Device device = new Device(null, name, ip, state, delay);
         when(deviceService.saveDevice(any())).thenReturn(device);
 
         //Voer de test uit met JSON, zodat ook het parsen getest wordt

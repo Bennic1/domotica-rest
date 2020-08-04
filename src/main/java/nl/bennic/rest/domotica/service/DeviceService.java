@@ -10,15 +10,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 @Service
 @Log
 public class DeviceService {
 
+    private Device device;
+
     @Autowired
     private DeviceRepository deviceRepository;
 
-    // POST ////////////////////////////////////////////////////////////
+   // POST ////////////////////////////////////////////////////////////
 
     // één device opslaan
     public Device saveDevice(Device device) {
@@ -93,6 +96,43 @@ public class DeviceService {
             log.info("Result: " + result.block());
             log.info("\u001b[34;1m======================================================================\u001b[0m");
            return deviceRepository.save(device);
+
+        } catch (Exception e) {
+            log.warning("Device Exception! Device: " + device);
+            log.warning(e.getMessage());
+            throw new ApiRequestException("Cannot update device with id " + device.getId() + ". Device not found!");
+        }
+    }
+
+    public Device runDevice(Device device) {
+        try {
+            Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
+
+            log.info("\u001b[34;1m============================ Run Device ============================\u001b[0m");
+            log.info("Delay: " + device.getDelay() + " seconds");
+            for (int i = device.getDelay(); i == 0 ; i--) {
+                Thread.sleep(device.getDelay()*1000);
+                log.info(String.valueOf(i-1) + "..");
+            }
+
+            final String PATH = "/cm";
+            final String COMMAND = "cmnd";
+            String state;
+            if (Boolean.TRUE.equals(device.getState())) state = "Power on";
+            else state = "Power off";
+
+            WebClient webClient = WebClient.create("http://" + device.getIp());
+            Mono<String> result = webClient.put()
+                    .uri(uriBuilder -> uriBuilder
+                            .path(PATH)
+                            .queryParam(COMMAND, state)
+                            .build())
+                    .retrieve()
+                    .bodyToMono(String.class);
+
+            log.info("Result: " + result.block());
+            log.info("\u001b[34;1m======================================================================\u001b[0m");
+            return deviceRepository.save(device);
 
         } catch (Exception e) {
             log.warning("Device Exception! Device: " + device);
