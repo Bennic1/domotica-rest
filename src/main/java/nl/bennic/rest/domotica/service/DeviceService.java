@@ -71,14 +71,12 @@ public class DeviceService {
         try {
             Device existingDevice = deviceRepository.findById(device.getId()).orElse(null);
 
-            log.info("My Message");
-
             log.info("\u001b[34;1m============================Update Device ============================\u001b[0m");
             log.info("From: \t" + existingDevice);
             log.info("To: \t" + device);
 
-            String path = "/cm";
-            String command = "cmnd";
+            final String PATH = "/cm";
+            final String COMMAND = "cmnd";
             String state;
             if (Boolean.TRUE.equals(device.getState())) state = "Power on";
             else state = "Power off";
@@ -86,8 +84,8 @@ public class DeviceService {
             WebClient webClient = WebClient.create("http://" + device.getIp());
             Mono<String> result = webClient.put()
                     .uri(uriBuilder -> uriBuilder
-                            .path(path)
-                            .queryParam(command, state)
+                            .path(PATH)
+                            .queryParam(COMMAND, state)
                             .build())
                     .retrieve()
                     .bodyToMono(String.class);

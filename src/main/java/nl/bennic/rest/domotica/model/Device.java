@@ -18,6 +18,7 @@ public class Device {
     private String ip;
     private Boolean state;
 
+
     @Override
     public String toString() {
         return "\u001b[34;1mDevice id: \u001b[0m" + id + ", \u001b[34;1mName: \u001b[0m" + name + ", \u001b[34;1mIP: \u001b[0m" + ip + ", \u001b[34;1mState: \u001b[0m" + state;
