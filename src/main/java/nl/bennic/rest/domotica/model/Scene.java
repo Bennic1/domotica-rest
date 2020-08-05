@@ -31,9 +31,7 @@ public class Scene {
                 devicelistText.append("\t\t\t").append(device.toString()).append("\n");
             }
         }
-
-        return "\u001b[32;1mGroup id: \u001b[0m" + id + ", \u001b[32;1mName: \u001b[0m" + name + ", \u001b[32;1mDevice count: \u001b[0m" + devices.size() +
+        return "\u001b[32;1mGroup id: \u001b[0m" + id + ", \u001b[32;1mName: \u001b[0m" + name + ", \u001b[32;1mItem count: \u001b[0m" + devices.size() +
                 ", \u001b[32;1mDevice List: \n\u001b[0m" + devicelistText;
     }
-   }
-
+}

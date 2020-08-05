@@ -19,7 +19,6 @@ public class SceneController {
 
     @PostMapping("/addScene")
     public Scene addScene(@RequestBody Scene scene) {
-
         return sceneService.saveScene(scene);
     }
 
