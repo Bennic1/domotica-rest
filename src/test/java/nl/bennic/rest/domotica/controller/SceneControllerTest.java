@@ -119,7 +119,8 @@ public class SceneControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Scene1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.devices[*].name", Matchers.containsInAnyOrder("Device1", "Device2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.devices[*].name",
+                        Matchers.containsInAnyOrder("Device1", "Device2")))
                 .andReturn();
     }
 
