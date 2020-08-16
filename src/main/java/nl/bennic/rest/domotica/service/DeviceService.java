@@ -77,7 +77,6 @@ public class DeviceService {
             log.info("From: \t" + existingDevice);
             log.info("To: \t" + device);
 
-            final String PATH = "/cm";
             final String COMMAND = "cmnd";
             String state;
             if (Boolean.TRUE.equals(device.getState())) state = "Power on";
@@ -86,7 +85,7 @@ public class DeviceService {
             WebClient webClient = WebClient.create("http://" + device.getIp());
             Mono<String> result = webClient.put()
                     .uri(uriBuilder -> uriBuilder
-                            .path(PATH)
+                            .path("/cm")
                             .queryParam(COMMAND, state)
                             .build())
                     .retrieve()
