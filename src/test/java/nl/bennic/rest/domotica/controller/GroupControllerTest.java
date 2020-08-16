@@ -64,17 +64,4 @@ class GroupControllerTest {
                 .andExpect(jsonPath("$.name").value("Group1"))
                 .andReturn();
     }
-
-
-    @Test
-    void getAllGroups() {
-    }
-
-    @Test
-    void deleteGroup() {
-    }
-
-    @Test
-    void updateGroup() {
-    }
 }

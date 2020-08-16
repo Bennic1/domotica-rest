@@ -2,11 +2,12 @@ package nl.bennic.rest.domotica.controller;
 
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.model.Scene;
+import nl.bennic.rest.domotica.model.SceneDTO;
 import nl.bennic.rest.domotica.service.SceneService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -17,11 +18,15 @@ public class SceneController {
     @Autowired
     private SceneService sceneService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addScene")
-    public Scene addScene(@RequestBody Scene scene) {
-        return sceneService.saveScene(scene);
+    public Scene addScene(@RequestBody SceneDTO sceneDTO) {
+        Scene scene = modelMapper.map(sceneDTO, Scene.class);
+          return sceneService.saveScene(scene);
     }
 
     // GET /////////////////////////////////////////////////////////////////////
@@ -40,19 +45,23 @@ public class SceneController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteScene")
-    public String deleteScene(@RequestBody Scene scene) {
+    public String deleteScene(@RequestBody  SceneDTO sceneDTO) {
+        Scene scene = modelMapper.map(sceneDTO, Scene.class);
+
         return sceneService.deleteScene(scene);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateScene")
-    public Scene updateScene(@RequestBody Scene scene) {
+    public Scene updateScene(@RequestBody  SceneDTO sceneDTO) {
+        Scene scene = modelMapper.map(sceneDTO, Scene.class);
         return sceneService.updateScene(scene);
     }
 
     @PutMapping("/runScene")
-    public Scene runScene(@RequestBody Scene scene) {
+    public Scene runScene(@RequestBody  SceneDTO sceneDTO) {
+        Scene scene = modelMapper.map(sceneDTO, Scene.class);
         return sceneService.runScene(scene);
     }
 

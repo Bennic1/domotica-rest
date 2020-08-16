@@ -47,7 +47,6 @@ public class SceneService {
 
     public Scene updateScene(Scene scene) {
         try {
-            Scene existingScene = sceneRepository.findById(scene.getId()).orElse(null);
             log.info("Updating Scene: " + scene.toString());
             return sceneRepository.save(scene);
         } catch (
@@ -59,7 +58,6 @@ public class SceneService {
 
     public Scene runScene(Scene scene) {
         try {
-            Scene existingScene = sceneRepository.findById(scene.getId()).orElse(null);
             log.info("\u001b[32;1m============================= Run Scene =============================\u001b[0m");
             List<Device> devicesInScene = new ArrayList<>(scene.getDevices());
             for (Device device : devicesInScene) {

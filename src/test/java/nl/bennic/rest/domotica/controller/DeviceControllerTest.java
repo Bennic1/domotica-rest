@@ -55,17 +55,4 @@ class DeviceControllerTest {
         assertThat(deviceArgumentCaptor.getValue().getIp()).isEqualTo(ip);
         assertThat(deviceArgumentCaptor.getValue().getState()).isEqualTo(state);
     }
-
-    @Test
-    void getAllDevices() {
-
-    }
-
-    @Test
-    void deleteDevice() {
-    }
-
-    @Test
-    void updateDevice() {
-    }
 }

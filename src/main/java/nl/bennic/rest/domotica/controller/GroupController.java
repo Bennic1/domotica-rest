@@ -2,7 +2,9 @@ package nl.bennic.rest.domotica.controller;
 
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.model.Group;
+import nl.bennic.rest.domotica.model.GroupDTO;
 import nl.bennic.rest.domotica.service.GroupService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +17,14 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addGroup")
-    public Group addGroup(@RequestBody Group group) {
-
+    public Group addGroup(@RequestBody GroupDTO groupDTO) {
+        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.saveGroup(group);
     }
 
@@ -39,14 +44,16 @@ public class GroupController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteGroup")
-    public String deleteGroup(@RequestBody Group group) {
+    public String deleteGroup(@RequestBody GroupDTO groupDTO) {
+        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.deleteGroup(group);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateGroup")
-    public Group updateGroup(@RequestBody Group group) {
+    public Group updateGroup(@RequestBody GroupDTO groupDTO) {
+        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.updateGroup(group);
     }
 }

@@ -3,11 +3,17 @@ package nl.bennic.rest.domotica.controller;
 import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
+import nl.bennic.rest.domotica.model.DeviceDTO;
+import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.service.DeviceService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @Log
@@ -16,10 +22,14 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
    // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addDevice")
-    public Device addDevice(@RequestBody Device device) {
+    public Device addDevice(@RequestBody DeviceDTO deviceDTO) {
+        Device device = modelMapper.map(deviceDTO, Device.class);
         log.info("REQUEST: addDevice " + device.toString());
         return deviceService.saveDevice(device);
     }
@@ -51,14 +61,16 @@ public class DeviceController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteDevice")
-    public String deleteDevice(@RequestBody Device device) {
+    public String deleteDevice(@RequestBody DeviceDTO deviceDTO) {
+        Device device = modelMapper.map(deviceDTO, Device.class);
         return deviceService.deleteDevice(device);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateDevice")
-    public Device updateDevice(@RequestBody Device device) {
+    public Device updateDevice(@RequestBody DeviceDTO deviceDTO) {
+        Device device = modelMapper.map(deviceDTO, Device.class);
         return deviceService.updateDevice(device);
     }
 }
