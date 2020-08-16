@@ -7,7 +7,7 @@ public class SceneDTO implements Serializable {
 
     private String id;
     private String name;
-    private List<Device> devices;
+    private List<DeviceDTO> devices;
 
     public String getId() {
         return id;
@@ -25,11 +25,11 @@ public class SceneDTO implements Serializable {
         this.name = name;
     }
 
-    public List<Device> getDevices() {
+    public List<DeviceDTO> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(List<DeviceDTO> devices) {
         this.devices = devices;
     }
 }

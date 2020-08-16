@@ -4,12 +4,9 @@ import lombok.extern.java.Log;
 import nl.bennic.rest.domotica.exception.ApiRequestException;
 import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.model.DeviceDTO;
-import nl.bennic.rest.domotica.model.Group;
 import nl.bennic.rest.domotica.service.DeviceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
