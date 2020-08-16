@@ -6,6 +6,7 @@ import nl.bennic.rest.domotica.model.Device;
 import nl.bennic.rest.domotica.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.Callable;
 
 @Service
 @Log
+@RequestMapping
 public class DeviceService {
 
     private Device device;

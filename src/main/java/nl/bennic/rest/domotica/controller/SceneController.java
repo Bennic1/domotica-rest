@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @Log
+@RequestMapping
 public class SceneController {
 
     @Autowired
