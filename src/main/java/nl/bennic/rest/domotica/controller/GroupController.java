@@ -17,14 +17,14 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
-    @Autowired
-    ModelMapper modelMapper;
+//    @Autowired
+//    ModelMapper modelMapper;
 
     // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addGroup")
-    public Group addGroup(@RequestBody GroupDTO groupDTO) {
-        Group group = modelMapper.map(groupDTO, Group.class);
+    public Group addGroup(@RequestBody Group group) {
+//        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.saveGroup(group);
     }
 
@@ -44,16 +44,16 @@ public class GroupController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteGroup")
-    public String deleteGroup(@RequestBody GroupDTO groupDTO) {
-        Group group = modelMapper.map(groupDTO, Group.class);
+    public String deleteGroup(@RequestBody Group group) {
+//        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.deleteGroup(group);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateGroup")
-    public Group updateGroup(@RequestBody GroupDTO groupDTO) {
-        Group group = modelMapper.map(groupDTO, Group.class);
+    public Group updateGroup(@RequestBody Group group) {
+//        Group group = modelMapper.map(groupDTO, Group.class);
         return groupService.updateGroup(group);
     }
 }

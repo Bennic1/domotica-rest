@@ -18,14 +18,14 @@ public class SceneController {
     @Autowired
     private SceneService sceneService;
 
-    @Autowired
-    ModelMapper modelMapper;
+//    @Autowired
+//    ModelMapper modelMapper;
 
     // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addScene")
-    public Scene addScene(@RequestBody SceneDTO sceneDTO) {
-        Scene scene = modelMapper.map(sceneDTO, Scene.class);
+    public Scene addScene(@RequestBody Scene scene) {
+//        Scene scene = modelMapper.map(sceneDTO, Scene.class);
           return sceneService.saveScene(scene);
     }
 
@@ -45,23 +45,22 @@ public class SceneController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteScene")
-    public String deleteScene(@RequestBody  SceneDTO sceneDTO) {
-        Scene scene = modelMapper.map(sceneDTO, Scene.class);
-
+    public String deleteScene(@RequestBody  Scene scene) {
+//        Scene scene = modelMapper.map(sceneDTO, Scene.class);
         return sceneService.deleteScene(scene);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateScene")
-    public Scene updateScene(@RequestBody  SceneDTO sceneDTO) {
-        Scene scene = modelMapper.map(sceneDTO, Scene.class);
+    public Scene updateScene(@RequestBody  Scene scene) {
+//        Scene scene = modelMapper.map(sceneDTO, Scene.class);
         return sceneService.updateScene(scene);
     }
 
     @PutMapping("/runScene")
-    public Scene runScene(@RequestBody  SceneDTO sceneDTO) {
-        Scene scene = modelMapper.map(sceneDTO, Scene.class);
+    public Scene runScene(@RequestBody  Scene scene) {
+//        Scene scene = modelMapper.map(sceneDTO, Scene.class);
         return sceneService.runScene(scene);
     }
 

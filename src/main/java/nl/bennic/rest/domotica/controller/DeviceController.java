@@ -19,14 +19,14 @@ public class DeviceController {
     @Autowired
     private DeviceService deviceService;
 
-    @Autowired
-    ModelMapper modelMapper;
+//    @Autowired
+//    ModelMapper modelMapper;
 
    // POST /////////////////////////////////////////////////////////////////////
 
     @PostMapping("/addDevice")
-    public Device addDevice(@RequestBody DeviceDTO deviceDTO) {
-        Device device = modelMapper.map(deviceDTO, Device.class);
+    public Device addDevice(@RequestBody Device device) {
+//        Device device = modelMapper.map(deviceDTO, Device.class);
         log.info("REQUEST: addDevice " + device.toString());
         return deviceService.saveDevice(device);
     }
@@ -58,16 +58,16 @@ public class DeviceController {
     // DELETE ///////////////////////////////////////////////////////////////////
 
     @DeleteMapping("/deleteDevice")
-    public String deleteDevice(@RequestBody DeviceDTO deviceDTO) {
-        Device device = modelMapper.map(deviceDTO, Device.class);
+    public String deleteDevice(@RequestBody Device device) {
+//        Device device = modelMapper.map(deviceDTO, Device.class);
         return deviceService.deleteDevice(device);
     }
 
     // PUT //////////////////////////////////////////////////////////////////////
 
     @PutMapping("/updateDevice")
-    public Device updateDevice(@RequestBody DeviceDTO deviceDTO) {
-        Device device = modelMapper.map(deviceDTO, Device.class);
+    public Device updateDevice(@RequestBody Device device) {
+//        Device device = modelMapper.map(deviceDTO, Device.class);
         return deviceService.updateDevice(device);
     }
 }
